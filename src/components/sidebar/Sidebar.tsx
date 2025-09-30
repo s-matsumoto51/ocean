@@ -24,7 +24,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onToggle }) => {
         <h2 style={{
           ...componentStyles.sidebar.title
         }}>
-          海洋清掃
+          海洋清
         </h2>
         <CloseButton {...componentStyles.sidebar.closeButton} onClick={onToggle}
         />
