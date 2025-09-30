@@ -4,15 +4,32 @@ import { useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import '@/styles/style.css'
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
+import { useDate } from "../hooks/useDate";
 
 type TProps ={
-    valueCalender:string;
-    handleChangeDate:(e: React.ChangeEvent<HTMLInputElement>)=> void;
-    goToPrevDay : () => void;
-    goToNextDay : () => void;
+    valueCalender: string;
+    setValueCalender:(value:string) =>void;
 }
     
-export const SingleDate = ({valueCalender,handleChangeDate,goToPrevDay,goToNextDay}:TProps) => {
+export const SingleDate = ({valueCalender,setValueCalender}:TProps) => {
+    //   const handleChangeDate=(e:React.ChangeEvent<HTMLInputElement>)=>{
+    //     setValueCalender(e.target.value);
+    //   }
+    
+    //   const goToPrevDay = ()=>{
+    //     if (valueCalender==="") return;
+    //     const preDate = new Date(valueCalender);
+    //     preDate.setDate(preDate.getDate()-1);
+    //     setValueCalender(preDate.toISOString().split("T")[0]);
+    //   }
+    //   const goToNextDay = ()=>{
+    //     if (valueCalender==="") return;
+    //     const nextDate = new Date(valueCalender);
+    //     nextDate.setDate(nextDate.getDate()+1);
+    //     setValueCalender(nextDate.toISOString().split("T")[0]);
+    //   }
+    const {handleChangeDate,goToPrevDay,goToNextDay} = useDate(valueCalender,setValueCalender);
+
     return (
         <HStack w="full"  gap={1} marginLeft={9}>
             <Box 

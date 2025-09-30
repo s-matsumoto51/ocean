@@ -6,35 +6,28 @@ import { exit } from "process";
 import { SingleDate } from "../date/singleDate";
 import { RangeDate } from "../date/rangeDate";
 
-type TabType={
+type TabType ={
     selectedTab:string;
     setSelectedTab:(value:string)=>void
 }
+interface DatesState {
+  date1: string  ;
+  date2: string  ;
+  date3: string  ;
+}
 export const Tab =({selectedTab,setSelectedTab}:TabType)=>{
   const [activeButton,setActiveButton] = useState<string | null>("time");
-  const [valueCalender,setValueCalender] = useState<string>("");
+  const [valueCalender,setValueCalender] = useState<DatesState>({
+    date1: '',
+    date2: '',
+    date3: ''
+  });
 
   const buttons =[
     {name:"time",component:TimeIcon},
     {name:"add",component:AddIcon},
     {name:"view",component:ViewIcon}
   ]
-  const handleChangeDate=(e:React.ChangeEvent<HTMLInputElement>)=>{
-    setValueCalender(e.target.value);
-  }
-
-  const goToPrevDay = ()=>{
-    if (valueCalender==="") return;
-    const preDate = new Date(valueCalender);
-    preDate.setDate(preDate.getDate()-1);
-    setValueCalender(preDate.toISOString().split("T")[0]);
-  }
-  const goToNextDay = ()=>{
-    if (valueCalender==="") return;
-    const nextDate = new Date(valueCalender);
-    nextDate.setDate(nextDate.getDate()+1);
-    setValueCalender(nextDate.toISOString().split("T")[0]);
-  }
     return(
       <Stack>
         <Box mb={6} boxShadow={'lg'}>
@@ -67,11 +60,19 @@ export const Tab =({selectedTab,setSelectedTab}:TabType)=>{
               </HStack>
             </HStack>
             {activeButton=="time" &&(
-              <SingleDate valueCalender={valueCalender} handleChangeDate={handleChangeDate} goToPrevDay={goToPrevDay} goToNextDay={goToNextDay}/>
+              <SingleDate
+                valueCalender={valueCalender.date1}
+                setValueCalender={(value: string) => setValueCalender(prev => ({...prev, date1: value}))}
+              />
             )
             }
             {activeButton=="view" &&(
-              <RangeDate/>
+              <RangeDate
+               valueCalender2={valueCalender.date2}
+               valueCalender3={valueCalender.date3}
+               setValueCalender2 = {(value: string)=>(setValueCalender((prev)=>({...prev,date2:value})))}
+               setValueCalender3 = {(value: string)=>(setValueCalender((prev)=>({...prev,date3:value})))}
+              />
             )
             }
             
